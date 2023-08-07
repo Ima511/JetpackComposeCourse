@@ -237,7 +237,7 @@ fun AppBar(title: String, onNavigateUp: () -> Unit) {
         modifier = Modifier.padding(vertical = 10.dp)
     ) {
 
-        IconButton(onClick = {onNavigateUp}) {
+        IconButton(onClick = onNavigateUp) {
             Icon(imageVector = Icons.Rounded.ArrowBack,
                 contentDescription = "Back Button" )
         }
@@ -256,43 +256,53 @@ fun DetailsScreen(title: String, onNavigateUp: () -> Unit ){
     val choosen_course = allCourses.first{it.title == title }
 
     Scaffold() {paddingValues ->
-        Column(Modifier.padding(paddingValues)) {
-            Row(verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(vertical = 10.dp)) {
-                IconButton(onClick = {onNavigateUp}) {
-                    Icon(imageVector = Icons.Rounded.ArrowBack,
-                        contentDescription = "Go Back" )
+        Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(vertical = 10.dp)
+            ) {
+                IconButton(onClick = onNavigateUp) {
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowBack,
+                        contentDescription = "Go Back"
+                    )
                 }
             }
+            Column(Modifier.padding(paddingValues).verticalScroll(
+                rememberScrollState()
+            )) {
 
-            Image(painter = painterResource(id = choosen_course.thumbnail),
-                contentDescription = "Selected Image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(16f / 9f),
-                contentScale = ContentScale.Crop
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp).verticalScroll(
-                        rememberScrollState()
-                    )) {
 
-                Text(text = choosen_course.title, fontSize = 40.sp)
-
+                Image(
+                    painter = painterResource(id = choosen_course.thumbnail),
+                    contentDescription = "Selected Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(16f / 9f),
+                    contentScale = ContentScale.Crop
+                )
                 Spacer(modifier = Modifier.height(20.dp))
-
-                Text(text = choosen_course.body,
+                Column(
                     Modifier
                         .fillMaxSize()
-                        ,
-                    fontSize = 20.sp
-                )
+                        .padding(horizontal = 16.dp)
+
+                ) {
+
+                    Text(text = choosen_course.title, fontSize = 40.sp, lineHeight = 40.sp)
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Text(
+                        text = choosen_course.body,
+                        Modifier
+                            .fillMaxSize(),
+                        fontSize = 20.sp
+                    )
+
+                }
 
             }
-
         }
 
     }
